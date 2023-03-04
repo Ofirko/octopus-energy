@@ -1,5 +1,6 @@
 import { useQuery, gql } from '@apollo/client';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import Cart from './cart';
 
 export const GET_PRODUCT = gql`
 query Products($id: ID!) {
@@ -22,6 +23,7 @@ query Products($id: ID!) {
 `;
 
 export function ProductBody() {
+  const { setCart } = useContext(Cart)
   const [qty, setQty] = useState(1);
 
   const { loading, error, data } = useQuery(GET_PRODUCT, {
@@ -35,8 +37,7 @@ export function ProductBody() {
   }
   
   return <div>
-
-      <div className="main_Wrapper">
+  <div className="main_Wrapper">
           <img 
             src={data.Product.img_url} 
             alt={data.Product.name}
@@ -52,7 +53,9 @@ export function ProductBody() {
             <button className="button"  onClick={() => setQty((oldQty) => oldQty + 1)}> + </button>
           </div>
         </div>
-        <button className="button button_Cart">Add to cart</button>
+        <button className="button button_Cart" 
+        onClick={() => setCart((oldCart) => 
+          ([...oldCart, { id: data.Product.id, name: data.Product.name, quantity: qty}]))}>Add to cart</button>
       </div>
 
       <div className="description_Wrapper">
@@ -63,29 +66,31 @@ export function ProductBody() {
       <div className="spec_Wrapper" >
         <h2> Specifications </h2>
         <table>
-          <tr>
-            <th>Brand</th>
-            <td>{data.Product.brand}</td>
-          </tr>
-          <tr>
-            <th>Item weight(g)</th>
-            <td>{data.Product.weight}</td>
-          </tr>
-          <tr>
-            <th>Dimensions(cm)</th>
-            <td>{data.Product.height} X {data.Product.width} X {data.Product.length}</td>
-          </tr>
-          <tr>
-            <th>Item Model number</th>
-            <td>{data.Product.model_code}</td>
-          </tr>
-          <tr>
-            <th>Colour</th>
-            <td>{data.Product.colour}</td>
-          </tr>
+          <tbody>
+            <tr>
+              <th>Brand</th>
+              <td>{data.Product.brand}</td>
+            </tr>
+            <tr>
+              <th>Item weight(g)</th>
+              <td>{data.Product.weight}</td>
+            </tr>
+            <tr>
+              <th>Dimensions(cm)</th>
+              <td>{data.Product.height} X {data.Product.width} X {data.Product.length}</td>
+            </tr>
+            <tr>
+              <th>Item Model number</th>
+              <td>{data.Product.model_code}</td>
+            </tr>
+            <tr>
+              <th>Colour</th>
+              <td>{data.Product.colour}</td>
+            </tr>
+          </tbody>
         </table>
       </div>
-  </div>;
+    </div>;
 }
 
 export default ProductBody;
