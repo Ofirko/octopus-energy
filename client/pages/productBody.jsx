@@ -1,4 +1,5 @@
 import { useQuery, gql } from '@apollo/client';
+import { useState } from 'react';
 
 export const GET_PRODUCT = gql`
 query Products($id: ID!) {
@@ -21,6 +22,8 @@ query Products($id: ID!) {
 `;
 
 export function ProductBody() {
+  const [qty, setQty] = useState(1);
+
   const { loading, error, data } = useQuery(GET_PRODUCT, {
     variables: {
       id: 1,
@@ -41,10 +44,12 @@ export function ProductBody() {
         <h1>{data.Product.name}</h1>      
         <div>{data.Product.power} // Packet of {data.Product.quantity}</div>
         <div className="calculation_Wrapper" >
-          <div>£ {data.Product.price}</div> 
+          <div>£ {data.Product.price / 100}</div> 
           <div className="quantity_Wrapper">
-            <div>Qty</div>
-            <button class="button"> - </button> <div> 1 </div> <button class="button"> + </button>
+            <div className="quantity_Headline">Qty</div>
+            <button className="button" disabled={qty < 2} onClick={() => setQty((oldQty) => oldQty - 1)}> - </button>
+            <div title="Current quantity"> {qty} </div> 
+            <button className="button"  onClick={() => setQty((oldQty) => oldQty + 1)}> + </button>
           </div>
         </div>
         <button className="button button_Cart">Add to cart</button>

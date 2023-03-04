@@ -117,3 +117,11 @@ header > button {
   height: 60px;
   background-color: var(--siphon);
 }
+
+.quantity_Wrapper > button:disabled {
+  background-color: var(--plum);
+}
+
+.quantity_Headline {
+  flex: 100%;
+}
