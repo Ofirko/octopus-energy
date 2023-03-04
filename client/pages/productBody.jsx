@@ -32,7 +32,54 @@ export function ProductBody() {
   }
   
   return <div>
-      <div>{data.Product.name}</div>
+
+      <div className="main_Wrapper">
+          <img 
+            src={data.Product.img_url} 
+            alt={data.Product.name}
+            className="product_Image"/>
+        <h1>{data.Product.name}</h1>      
+        <div>{data.Product.power} // Packet of {data.Product.quantity}</div>
+        <div className="calculation_Wrapper" >
+          <div>£ {data.Product.price}</div> 
+          <div className="quantity_Wrapper">
+            <div>Qty</div>
+            <button class="button"> - </button> <div> 1 </div> <button class="button"> + </button>
+          </div>
+        </div>
+        <button className="button button_Cart">Add to cart</button>
+      </div>
+
+      <div className="description_Wrapper">
+        <h2> Description </h2>
+        <div>{data.Product.description}</div>
+      </div>
+
+      <div className="spec_Wrapper" >
+        <h2> Specifications </h2>
+        <table>
+          <tr>
+            <th>Brand</th>
+            <td>{data.Product.brand}</td>
+          </tr>
+          <tr>
+            <th>Item weight(g)</th>
+            <td>{data.Product.weight}</td>
+          </tr>
+          <tr>
+            <th>Dimensions(cm)</th>
+            <td>{data.Product.height} X {data.Product.width} X {data.Product.length}</td>
+          </tr>
+          <tr>
+            <th>Item Model number</th>
+            <td>{data.Product.model_code}</td>
+          </tr>
+          <tr>
+            <th>Colour</th>
+            <td>{data.Product.colour}</td>
+          </tr>
+        </table>
+      </div>
   </div>;
 }
 
